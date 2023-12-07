@@ -1,20 +1,19 @@
-# маленький REST API сервис для вступительного задания в ШБР
-
-![](https://sun9-81.userapi.com/impg/4xuS9-m_1SNYLeytCs9mCtIsSrCT49MxGh9JoQ/SC2X-4z2oc8.jpg?size=1600x1200&quality=95&sign=42de96cf520b21fc26c55295eb279b08&type=album)
+# Yet filesystem Disk Open API
 
 ### Функционал
 
--  ручка /nodes/{id} позволяет по id получить информацию об объекте в файловой системе в формате json
+- ручка /nodes/{id} позволяет по id получить информацию об объекте в файловой системе в формате json
 - ручка /imports позволяет добавить объект в файловую систему (информацию следует передовать в формате json)
 - ручка /delete/{id} позволяет удалить информацию из файловой системы
 
-
+### Данные и API
+Описание сущностей и путей приложения приведены в файле ```openapi.yaml```
 
 
 **Как развернуть**
 
-	git clone https://github.com/defuntitled/BackendSchoolIntroProject
-	cd BackendSchoolIntroProject
+	git clone https://github.com/defuntitled/bd_and_web_project
+	cd bd_and_web_project 
 	docker-compose up
 
 **Список используемых технологий**
