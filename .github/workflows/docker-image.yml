@@ -42,6 +42,8 @@ jobs:
       uses: yc-actions/yc-coi-deploy@v1.0.1
       env:
         BACKEND_IMAGE: ${{ env.BACKEND_IMAGE }}
+        YC_VM_SSH: ${{ secrets.YC_VM_SSH }}
+        YC_VM_USERNAME: ${{ secrets.YC_VM_USERNAME }}
       with:
         yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
         folder-id: ${{ secrets.YC_FOLDER_ID }}
