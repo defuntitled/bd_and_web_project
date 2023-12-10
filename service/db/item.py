@@ -12,8 +12,7 @@ class TypeEnum(enum.Enum):
 
 class Item(SqlalchemyBase):
     __tablename__ = "items"
-    item_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, unique=True, autoincrement=True)
-    id = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    id = sqlalchemy.Column(sqlalchemy.String, nullable=False, primary_key=True,)
     url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     date = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     parentId = sqlalchemy.Column(sqlalchemy.String, nullable=True)

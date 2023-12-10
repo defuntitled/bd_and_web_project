@@ -5,7 +5,6 @@ import queue
 from service.db.db_session import create_session
 from service.db.item import Item
 
-
 def deserialize_item(item: dict) -> Item:
     return Item(id=item["id"],
                 type=TypeEnum.FILE if item["type"] == "FILE" else TypeEnum.FOLDER,

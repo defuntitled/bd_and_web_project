@@ -6,6 +6,7 @@ from service.db.db_session import global_init
 from service.app.item_finder import get_item_by_id
 from service.app.item_adder import import_items
 from service.app.item_deletter import delete_item_by_id
+from service.app.history_worker import get_last_day_updates, get_item_history_by_id
 import sys
 
 sys.path.append('path')
@@ -16,9 +17,9 @@ database_loaded = False
 
 def bad_answer(code: int, message: str):
     return {
-               "code": code,
-               "message": message
-           }, str(code)
+        "code": code,
+        "message": message
+    }, str(code)
 
 
 @app.route('/nodes/<string:id>', methods=["GET"])
@@ -65,6 +66,39 @@ def delete_node(id):
     return "200"
 
 
+@app.route("/updates", methods=["GET"])
+def get_updates():
+    global database_loaded
+    if not database_loaded:
+        global_init("db\\nodes.sqlite3")
+        database_loaded = True
+    date = request.args.get("date")
+    if not date:
+        flask.abort(400)
+    try:
+        return str(get_last_day_updates(date)), "200"
+    except ValueError:
+        flask.abort(400)
+
+
+@app.route("/node/<string:id>/history")
+def get_history(id):
+    global database_loaded
+    if not database_loaded:
+        global_init("db\\nodes.sqlite3")
+        database_loaded = True
+    begin = request.args.get("dateStart")
+    end = request.args.get("dateEnd")
+    if not begin or not end:
+        flask.abort(400)
+    try:
+        return str(get_item_history_by_id(id, begin, end)), "200"
+    except ValueError:
+        flask.abort(400)
+    except KeyError:
+        flask.abort(404)
+
+
 @app.errorhandler(400)
 def invalid_data(error):
     return bad_answer(400, "Validation Failed")
@@ -84,4 +118,4 @@ if __name__ == '__main__':
     if not database_loaded:
         global_init("db\\nodes.sqlite3")
         database_loaded = True
-    app.run()
+    app.run(port=8080)
