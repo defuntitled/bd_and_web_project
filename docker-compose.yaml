@@ -2,7 +2,7 @@ version: '3'
 services:
   flask:
     build: .
-    container_name: shbr
+    container_name: {{ env.BACKEND_IMAGE }}
     environment:
       - PYTHONUNBUFFERED=True
     restart: always
