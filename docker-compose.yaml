@@ -5,6 +5,8 @@ services:
     image: {{ env.BACKEND_IMAGE }}
     environment:
       - PYTHONUNBUFFERED=True
+    volumes:
+      - ~/data:/app/service
     restart: always
     ports:
       - "80:80"
