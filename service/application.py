@@ -114,8 +114,13 @@ def bad_situation(error):
     return bad_answer(400, "Validation Failed")
 
 
-if __name__ == '__main__':
+def run_app():
+    global database_loaded
     if not database_loaded:
         global_init("db\\nodes.sqlite3")
         database_loaded = True
-    app.run(port=8080)
+    app.run(port=80)
+
+
+if __name__ == '__main__':
+    run_app()

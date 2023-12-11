@@ -11,4 +11,4 @@ services:
       - ./service:/service
     ports:
       - "80:80"
-    command: gunicorn --workers=12 --threads=6 --bind 0.0.0.0:80 service:application
+    command: gunicorn --workers=12 --threads=6 --bind 0.0.0.0:80 application:run_app()
