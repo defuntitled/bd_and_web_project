@@ -11,4 +11,4 @@ services:
       - ./service:/service
     ports:
       - "80:80"
-    command: python application.py
+    command: echo "complited"
