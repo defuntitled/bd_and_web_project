@@ -11,4 +11,4 @@ services:
       - ./service:/service
     ports:
       - "80:80"
-    command: ls -la
+    command: ls -la app/
