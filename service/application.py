@@ -13,7 +13,7 @@ sys.path.append('path')
 
 app = Flask(__name__)
 database_loaded = False
-DB_URL = "data/nodes.sqlite3"
+DB_URL = "../database/nodes.sqlite3"
 
 
 def bad_answer(code: int, message: str):
