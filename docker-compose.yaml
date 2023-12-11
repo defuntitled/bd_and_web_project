@@ -1,13 +1,10 @@
 version: '3'
 services:
   flask:
-    build: .
     container_name: shbr
     image: {{ env.BACKEND_IMAGE }}
     environment:
       - PYTHONUNBUFFERED=True
     restart: always
-    volumes:
-      - ./service:/app/service/db
     ports:
       - "80:80"
