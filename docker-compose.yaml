@@ -6,7 +6,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=True
     volumes:
-      - ~/data:/app/service
+      - ~/data:/app/service/db
     restart: always
     ports:
       - "80:80"

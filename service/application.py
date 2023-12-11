@@ -13,6 +13,7 @@ sys.path.append('path')
 
 app = Flask(__name__)
 database_loaded = False
+DB_URL = "data/nodes.sqlite3"
 
 
 def bad_answer(code: int, message: str):
@@ -26,7 +27,7 @@ def bad_answer(code: int, message: str):
 def get_node(id: str):
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     res = get_item_by_id(id)
     if not res:
@@ -39,7 +40,7 @@ def get_node(id: str):
 def import_nodes():
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     try:
         content = json.loads(request.get_data(as_text=True))
@@ -58,7 +59,7 @@ def import_nodes():
 def delete_node(id):
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     res = delete_item_by_id(id)
     if not res:
@@ -70,7 +71,7 @@ def delete_node(id):
 def get_updates():
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     date = request.args.get("date")
     if not date:
@@ -85,7 +86,7 @@ def get_updates():
 def get_history(id):
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     begin = request.args.get("dateStart")
     end = request.args.get("dateEnd")
@@ -117,7 +118,7 @@ def bad_situation(error):
 def run_app():
     global database_loaded
     if not database_loaded:
-        global_init("db\\nodes.sqlite3")
+        global_init(DB_URL)
         database_loaded = True
     app.run(port=80)
 
