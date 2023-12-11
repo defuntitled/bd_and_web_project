@@ -8,7 +8,6 @@ services:
       - PYTHONUNBUFFERED=True
     restart: always
     volumes:
-      - ./service:/service
+      - ./service:/app/service/db
     ports:
       - "80:80"
-    command: ls -la app/

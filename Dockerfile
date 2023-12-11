@@ -6,5 +6,6 @@ COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY . ./app
-WORKDIR /service
+WORKDIR ./app/service
 ENV PYTHONPATH /
+CMD ["gunicorn", "--workers=12", "--threads=6", "--bind", "0.0.0.0:80", "application:run_app()"]
