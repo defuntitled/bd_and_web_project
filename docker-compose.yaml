@@ -7,4 +7,4 @@ services:
       - PYTHONUNBUFFERED=True
     restart: always
     ports:
-      - "80:80"
+      - "8080:8080"

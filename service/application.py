@@ -119,7 +119,7 @@ def run_app():
     if not database_loaded:
         global_init("db\\nodes.sqlite3")
         database_loaded = True
-    app.run(port=80)
+    app.run()
 
 
 if __name__ == '__main__':
