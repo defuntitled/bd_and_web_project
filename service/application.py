@@ -120,7 +120,7 @@ def run_app():
     if not database_loaded:
         global_init(DB_URL)
         database_loaded = True
-    app.run(port=80)
+    app.run(port=8080)
 
 
 if __name__ == '__main__':
