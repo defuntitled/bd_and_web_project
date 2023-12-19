@@ -1,9 +1,9 @@
 import json
 
 import flask
-from flask import Flask, request, make_response
+from flask import Flask, request
 from service.db.db_session import global_init
-from service.app.item_finder import get_item_by_id
+from service.app.item_finder import get_item_by_id, get_root
 from service.app.item_adder import import_items
 from service.app.item_deletter import delete_item_by_id
 from service.app.history_worker import get_last_day_updates, get_item_history_by_id
@@ -94,6 +94,20 @@ def get_history(id):
         flask.abort(400)
     try:
         return str(get_item_history_by_id(id, begin, end)), "200"
+    except ValueError:
+        flask.abort(400)
+    except KeyError:
+        flask.abort(404)
+
+
+@app.route("/nodes/root")
+def get_tree_root():
+    global database_loaded
+    if not database_loaded:
+        global_init(DB_URL)
+        database_loaded = True
+    try:
+        return get_root(), "200"
     except ValueError:
         flask.abort(400)
     except KeyError:

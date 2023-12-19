@@ -221,9 +221,10 @@ def test_import():
 def test_nodes():
     status, response = request(f"/nodes/{ROOT_ID}", json_response=True)
     # print(json.dumps(response, indent=2, ensure_ascii=False))
+    root_status, root_response = request(f"/nodes/root", json_response=True)
 
     assert status == 200, f"Expected HTTP status code 200, got {status}"
-
+    assert root_response["parentId"] is None
     deep_sort_children(response)
     deep_sort_children(EXPECTED_TREE)
     if response != EXPECTED_TREE:

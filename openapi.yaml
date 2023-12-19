@@ -148,6 +148,46 @@ paths:
                       "code": 404,
                       "message": "Item not found"
                     }
+  /nodes/root:
+    get:
+      description: |
+        Получить информацию о корневом элементе. При получении информации о папке также предоставляется информация о её дочерних элементах.
+
+        - для пустой папки поле children равно пустому массиву, а для файла равно null
+        - размер папки - это суммарный размер всех её элементов. Если папка не содержит элементов, то размер равен 0. При обновлении размера элемента, суммарный размер папки, которая содержит этот элемент, тоже обновляется.
+      responses:
+        "200":
+          description: Информация об элементе.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemItem"
+        "400":
+          description: Невалидная схема документа или входные данные не верны.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 400,
+                      "message": "Validation Failed"
+                    }
+        "404":
+          description: Элемент не найден.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                response:
+                  value: |-
+                    {
+                      "code": 404,
+                      "message": "Item not found"
+                    }
   /updates:
     get:
       description: |

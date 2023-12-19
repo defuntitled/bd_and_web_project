@@ -1,4 +1,7 @@
 import datetime
+
+import sqlalchemy
+
 from service.db.db_session import create_session
 from service.db.item import Item, TypeEnum
 from service.app.item_adder import datetime_valid
@@ -44,8 +47,9 @@ def calculate_size(item):
             ans += calculate_size(child)
     return ans
 
+
 def serialize_history_item(item):
-     return {
+    return {
         "id": item.id,
         "type": "FILE" if item.type == TypeEnum.FILE else "FOLDER",
         "date": item.date,
@@ -76,7 +80,12 @@ def get_item_by_id(id: str):
         return serialize_file(item)
     else:
         return serialize_folder(item)
-    
 
 
-
+def get_root():
+    session = create_session()
+    item = session.query(Item).filter(Item.parentId.is_(None)).first()
+    print(item)
+    if not item or item.parentId == TypeEnum.FILE:
+        raise KeyError
+    return serialize_folder(item)
