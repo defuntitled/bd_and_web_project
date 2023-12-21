@@ -1,7 +1,7 @@
 import json
 
 import flask
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from service.db.db_session import global_init
 from service.app.item_finder import get_item_by_id, get_root
 from service.app.item_adder import import_items
@@ -77,13 +77,13 @@ def get_updates():
     if not date:
         flask.abort(400)
     try:
-        return str(get_last_day_updates(date)), "200"
+        return jsonify(get_last_day_updates(date)), "200"
     except ValueError:
         flask.abort(400)
 
 
-@app.route("/node/<string:id>/history")
-def get_history(id):
+@app.route("/node/<string:id_>/history")
+def get_history(id_):
     global database_loaded
     if not database_loaded:
         global_init(DB_URL)
@@ -93,7 +93,7 @@ def get_history(id):
     if not begin or not end:
         flask.abort(400)
     try:
-        return str(get_item_history_by_id(id, begin, end)), "200"
+        return jsonify(get_item_history_by_id(id_, begin, end)), "200"
     except ValueError:
         flask.abort(400)
     except KeyError:

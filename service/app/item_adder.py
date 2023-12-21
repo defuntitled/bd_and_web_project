@@ -1,9 +1,10 @@
 from service.db.item import TypeEnum
 from datetime import datetime
-from json import loads
 import queue
 from service.db.db_session import create_session
 from service.db.item import Item
+from service.app.history_worker import create_history_record
+
 
 def deserialize_item(item: dict) -> Item:
     return Item(id=item["id"],
@@ -20,13 +21,13 @@ def update_items(cur_id, update_date):
     used = set()
     session = create_session()
     while not q.empty():
-        id = q.get()
-        used.add(id)
-        updated_item = session.query(Item).filter(Item.id == id).first()
-        if not updated_item is None:
+        id_ = q.get()
+        used.add(id_)
+        updated_item = session.query(Item).filter(Item.id == id_).first()
+        if updated_item is not None:
             updated_item.date = update_date
             session.commit()
-        if not updated_item is None and not updated_item.parentId is None and updated_item.parentId not in used:
+        if updated_item is not None and updated_item.parentId is not None and updated_item.parentId not in used:
             q.put(updated_item.parentId)
             used.add(updated_item.parentId)
 
@@ -81,6 +82,7 @@ def import_items(content: dict):
         item = deserialize_item(it)
         old_items = session.query(Item).filter(Item.id == item.id)
         for old_item in old_items:
+            create_history_record(old_item,content["updateDate"])
             old_item.id = item.id
             old_item.url = item.url
             old_item.size = item.size

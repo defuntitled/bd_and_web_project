@@ -85,6 +85,21 @@ IMPORT_BATCHES = [
     }
 ]
 
+UPDATED_BATCHES = [
+    {
+        "items": [
+            {
+                "type": "FILE",
+                "url": "/file/url6",
+                "id": "73bc3b36-02d1-4245-ab35-3106c9ee1c65",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "size": 128
+            }
+        ],
+        "updateDate": "2022-02-02T15:10:00Z"
+    }
+]
+
 EXPECTED_TREE = {
     "type": "FOLDER",
     "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
@@ -236,11 +251,17 @@ def test_nodes():
 
 
 def test_updates():
+    for index, batch in enumerate(UPDATED_BATCHES):
+        print(f"Updating batch {index}")
+        status, _ = request("/imports", method="POST", data=batch)
+        assert status == 200, f"Expected HTTP status code 200, got {status}"
+
     params = urllib.parse.urlencode({
-        "date": "2022-02-04T00:00:00Z"
+        "date": "2022-02-03T00:00:00Z"
     })
     status, response = request(f"/updates?{params}", json_response=True)
     assert status == 200, f"Expected HTTP status code 200, got {status}"
+    assert response != []
     print("Test updates passed.")
 
 
@@ -250,8 +271,9 @@ def test_history():
         "dateEnd": "2022-02-03T00:00:00Z"
     })
     status, response = request(
-        f"/node/{ROOT_ID}/history?{params}", json_response=True)
+        f"/node/{UPDATED_BATCHES[0]['items'][0]['id']}/history?{params}", json_response=True)
     assert status == 200, f"Expected HTTP status code 200, got {status}"
+    assert response != []
     print("Test stats passed.")
 
 
