@@ -86,6 +86,6 @@ def get_root():
     session = create_session()
     item = session.query(Item).filter(Item.parentId.is_(None)).first()
     print(item)
-    if not item or item.parentId == TypeEnum.FILE:
+    if not item or item.type == TypeEnum.FILE:
         raise KeyError
     return serialize_folder(item)

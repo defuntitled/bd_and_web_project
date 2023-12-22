@@ -240,6 +240,7 @@ def test_nodes():
 
     assert status == 200, f"Expected HTTP status code 200, got {status}"
     assert root_response["parentId"] is None
+    assert root_response["id"] == ROOT_ID
     deep_sort_children(response)
     deep_sort_children(EXPECTED_TREE)
     if response != EXPECTED_TREE:
